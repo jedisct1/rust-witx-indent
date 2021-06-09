@@ -33,7 +33,7 @@ fn main() -> Result<(), io::Error> {
     let fp = File::open(path)?;
     let reader = io::BufReader::new(fp);
     let mut indent_level = 0;
-    let mut previous_line_was_blank = false;
+    let mut previous_line_was_blank = true;
     for line in reader.lines() {
         let line = line?;
         let line = line.trim();
@@ -49,7 +49,9 @@ fn main() -> Result<(), io::Error> {
         let closing_braces = line.chars().filter(|&c| c == ')').count();
         let new_indent_level =
             (indent_level as isize + (opening_braces as isize - closing_braces as isize)) as usize;
-        if line.starts_with(")") {
+        if line.is_empty() {
+            println!();
+        } else if line.starts_with(")") {
             println!("{}{}", str::repeat(tab, new_indent_level), line);
         } else {
             println!("{}{}", str::repeat(tab, indent_level), line);
