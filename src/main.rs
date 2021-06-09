@@ -8,15 +8,6 @@ use std::io::{self, prelude::*};
 fn main() -> Result<(), io::Error> {
     let matches = app_from_crate!()
         .arg(
-            Arg::with_name("in")
-                .value_name("input file")
-                .short("-i")
-                .long("--input-file")
-                .multiple(false)
-                .help("Input file")
-                .required(true),
-        )
-        .arg(
             Arg::with_name("tab")
                 .value_name("tab string")
                 .short("-t")
@@ -24,6 +15,13 @@ fn main() -> Result<(), io::Error> {
                 .multiple(false)
                 .help("Tabulation string")
                 .default_value("    "),
+        )
+        .arg(
+            Arg::with_name("in")
+                .value_name("input file")
+                .multiple(false)
+                .help("Input file")
+                .required(true),
         )
         .get_matches();
 
@@ -47,8 +45,9 @@ fn main() -> Result<(), io::Error> {
         }
         let opening_braces = line.chars().filter(|&c| c == '(').count();
         let closing_braces = line.chars().filter(|&c| c == ')').count();
-        let new_indent_level =
-            (indent_level as isize + (opening_braces as isize - closing_braces as isize)) as usize;
+        let new_indent_level = (indent_level as isize)
+            .checked_add(opening_braces as isize - closing_braces as isize)
+            .expect("Unexpected closing brace") as usize;
         if line.is_empty() {
             println!();
         } else if line.starts_with(")") {
@@ -57,6 +56,9 @@ fn main() -> Result<(), io::Error> {
             println!("{}{}", str::repeat(tab, indent_level), line);
         }
         indent_level = new_indent_level;
+    }
+    if indent_level != 0 {
+        panic!("Missing closing brace");
     }
     Ok(())
 }
