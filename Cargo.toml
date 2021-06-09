@@ -1,0 +1,15 @@
+[package]
+name = "witx-indent"
+version = "0.1.0"
+edition = "2018"
+description = "Indent WITX files (WebAssembly)"
+authors = ["Frank Denis <github@pureftpd.org>"]
+license = "MIT"
+homepage = "https://github.com/jedisct1/rust-witx-indent"
+repository = "https://github.com/jedisct1/rust-witx-indent.git"
+readme = "README.md"
+categories = ["wasm", "api-bindings", "web-programming"]
+keywords = ["witx", "wasi", "indent", "webassembly"]
+
+[dependencies]
+clap = { version = "2.33.3", default-features = false, features = ["wrap_help"] }
