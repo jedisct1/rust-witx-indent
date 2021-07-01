@@ -50,7 +50,7 @@ fn main() -> Result<(), io::Error> {
             .expect("Unexpected closing brace") as usize;
         if line.is_empty() {
             println!();
-        } else if line.starts_with(")") {
+        } else if line.starts_with(')') {
             println!("{}{}", str::repeat(tab, new_indent_level), line);
         } else {
             println!("{}{}", str::repeat(tab, indent_level), line);
