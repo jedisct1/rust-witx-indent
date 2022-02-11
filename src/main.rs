@@ -8,18 +8,18 @@ use std::io::{self, prelude::*};
 fn main() -> Result<(), io::Error> {
     let matches = app_from_crate!()
         .arg(
-            Arg::with_name("tab")
+            Arg::new("tab")
                 .value_name("tab string")
-                .short("-t")
+                .short('t')
                 .long("--tab-string")
-                .multiple(false)
+                .multiple_occurrences(false)
                 .help("Tabulation string")
                 .default_value("    "),
         )
         .arg(
-            Arg::with_name("in")
+            Arg::new("in")
                 .value_name("input file")
-                .multiple(false)
+                .multiple_occurrences(false)
                 .help("Input file")
                 .required(true),
         )

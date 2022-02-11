@@ -12,4 +12,8 @@ categories = ["wasm", "api-bindings", "web-programming"]
 keywords = ["witx", "wasi", "indent", "webassembly"]
 
 [dependencies]
-clap = { version = "2.33.3", default-features = false, features = ["wrap_help"] }
+clap = { version = "3.0.14", default-features = false, features = [
+    "std",
+    "cargo",
+    "wrap_help",
+] }
