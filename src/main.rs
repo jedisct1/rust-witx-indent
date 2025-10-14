@@ -1,32 +1,30 @@
-#[macro_use]
-extern crate clap;
-
-use clap::Arg;
+use clap::{crate_authors, crate_description, crate_name, crate_version, Arg, Command};
 use std::fs::File;
 use std::io::{self, prelude::*};
 
 fn main() -> Result<(), io::Error> {
-    let matches = app_from_crate!()
+    let matches = Command::new(crate_name!())
+        .version(crate_version!())
+        .author(crate_authors!())
+        .about(crate_description!())
         .arg(
             Arg::new("tab")
                 .value_name("tab string")
                 .short('t')
-                .long("--tab-string")
-                .multiple_occurrences(false)
+                .long("tab-string")
                 .help("Tabulation string")
                 .default_value("    "),
         )
         .arg(
             Arg::new("in")
                 .value_name("input file")
-                .multiple_occurrences(false)
                 .help("Input file")
                 .required(true),
         )
         .get_matches();
 
-    let path = matches.value_of("in").unwrap();
-    let tab = matches.value_of("tab").unwrap();
+    let path = matches.get_one::<String>("in").unwrap();
+    let tab = matches.get_one::<String>("tab").unwrap();
 
     let fp = File::open(path)?;
     let reader = io::BufReader::new(fp);
