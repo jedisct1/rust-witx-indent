@@ -46,11 +46,11 @@ fn main() -> Result<(), io::Error> {
         } else {
             line
         };
-        let opening_braces = line_without_comment.chars().filter(|&c| c == '(').count();
-        let closing_braces = line_without_comment.chars().filter(|&c| c == ')').count();
+        let opening_parens = line_without_comment.chars().filter(|&c| c == '(').count();
+        let closing_parens = line_without_comment.chars().filter(|&c| c == ')').count();
         let new_indent_level = (indent_level as isize)
-            .checked_add(opening_braces as isize - closing_braces as isize)
-            .expect("Unexpected closing brace") as usize;
+            .checked_add(opening_parens as isize - closing_parens as isize)
+            .expect("Unexpected closing parenthesis") as usize;
         if line.is_empty() {
             println!();
         } else if line.starts_with(')') {
@@ -61,7 +61,7 @@ fn main() -> Result<(), io::Error> {
         indent_level = new_indent_level;
     }
     if indent_level != 0 {
-        panic!("Missing closing brace");
+        panic!("Missing closing parenthesis");
     }
     Ok(())
 }
