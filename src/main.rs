@@ -41,8 +41,13 @@ fn main() -> Result<(), io::Error> {
         } else {
             previous_line_was_blank = false;
         }
-        let opening_braces = line.chars().filter(|&c| c == '(').count();
-        let closing_braces = line.chars().filter(|&c| c == ')').count();
+        let line_without_comment = if let Some(pos) = line.find(';') {
+            &line[..pos]
+        } else {
+            line
+        };
+        let opening_braces = line_without_comment.chars().filter(|&c| c == '(').count();
+        let closing_braces = line_without_comment.chars().filter(|&c| c == ')').count();
         let new_indent_level = (indent_level as isize)
             .checked_add(opening_braces as isize - closing_braces as isize)
             .expect("Unexpected closing brace") as usize;
